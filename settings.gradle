@@ -1,0 +1,3 @@
+rootProject.name = 'mps'
+include ':mps-api'
+include ':mps-shared'

@@ -1,0 +1,36 @@
+
+plugins {
+    id 'org.springframework.boot' version '3.3.2' apply false
+    id 'io.spring.dependency-management' version '1.1.5' apply false
+}
+
+allprojects {  
+    repositories {
+        mavenCentral()
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    group = 'com.mizegret.mps'
+    version = '0.0.1-SNAPSHOT'
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_21
+    }
+
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        developmentOnly 'org.springframework.boot:spring-boot-devtools'
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    }
+
+    tasks.named('test') {
+	    useJUnitPlatform()
+    }
+}
