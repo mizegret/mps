@@ -1,17 +1,19 @@
 package com.mizegret.mps.mps_shared.dto;
 
-import lombok.Getter;
-import lombok.NonNull;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import java.time.OffsetDateTime;
 import java.util.List;
 
-@Getter
-@RequiredArgsConstructor
-public class ErrorResponseDto {
+import org.springframework.http.HttpStatus;
+import org.springframework.lang.NonNull;
 
-    private final int status;
+@Data
+@RequiredArgsConstructor
+public class ErrorResponse{
+    @NonNull
+    private final HttpStatus status;
     @NonNull
     private final List<String> messages;
     @NonNull
