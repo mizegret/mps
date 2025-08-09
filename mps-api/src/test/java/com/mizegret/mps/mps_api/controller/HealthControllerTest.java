@@ -10,15 +10,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(HealthController.class)
-public class HealthControllerTest {
+public class HealthControllerTest{
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    void healthReturnsOkAndExpectedString() throws Exception {
-        mockMvc.perform(get(HealthController.HEALTH_ENDPOINT))
-                .andExpect(status().isOk())
+    void healthReturnsOkAndExpectedString() throws Exception{
+        mockMvc.perform(get(HealthController.HEALTH_ENDPOINT)).andExpect(status().isOk())
                 .andExpect(content().string("Hello, MPS API is running!"));
     }
 }

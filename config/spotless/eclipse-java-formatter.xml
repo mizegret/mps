@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<profiles version="20">
+  <profile kind="CodeFormatterProfile" name="MPS-Spotless" version="20">
+    <!-- Indentation and tabs -->
+    <setting id="org.eclipse.jdt.core.formatter.tabulation.char" value="space"/>
+    <setting id="org.eclipse.jdt.core.formatter.tabulation.size" value="4"/>
+    <setting id="org.eclipse.jdt.core.formatter.indentation.size" value="4"/>
+
+    <!-- Line wrapping -->
+    <setting id="org.eclipse.jdt.core.formatter.lineSplit" value="120"/>
+
+    <!-- Braces -->
+    <setting id="org.eclipse.jdt.core.formatter.brace_position_for_type_declaration" value="end_of_line"/>
+    <setting id="org.eclipse.jdt.core.formatter.brace_position_for_method_declaration" value="end_of_line"/>
+    <setting id="org.eclipse.jdt.core.formatter.brace_position_for_constructor_declaration" value="end_of_line"/>
+    <setting id="org.eclipse.jdt.core.formatter.brace_position_for_block" value="end_of_line"/>
+    <setting id="org.eclipse.jdt.core.formatter.brace_position_for_switch" value="end_of_line"/>
+    <setting id="org.eclipse.jdt.core.formatter.brace_position_for_annotation_type_declaration" value="end_of_line"/>
+    <setting id="org.eclipse.jdt.core.formatter.brace_position_for_enum_declaration" value="end_of_line"/>
+
+    <!-- Whitespace basics -->
+    <setting id="org.eclipse.jdt.core.formatter.compact_else_if" value="true"/>
+    <setting id="org.eclipse.jdt.core.formatter.insert_space_before_opening_paren_in_if" value="true"/>
+    <setting id="org.eclipse.jdt.core.formatter.insert_space_before_opening_paren_in_for" value="true"/>
+    <setting id="org.eclipse.jdt.core.formatter.insert_space_before_opening_paren_in_while" value="true"/>
+    <setting id="org.eclipse.jdt.core.formatter.insert_space_before_opening_paren_in_switch" value="true"/>
+    <setting id="org.eclipse.jdt.core.formatter.insert_space_before_opening_brace_in_method_declaration" value="true"/>
+    <setting id="org.eclipse.jdt.core.formatter.insert_space_before_opening_brace_in_type_declaration" value="true"/>
+    <setting id="org.eclipse.jdt.core.formatter.insert_space_before_opening_brace_in_block" value="true"/>
+
+    <!-- Wrapping for method parameters and calls (wrap where necessary) -->
+    <setting id="org.eclipse.jdt.core.formatter.alignment_for_parameters_in_method_declaration" value="16"/>
+    <setting id="org.eclipse.jdt.core.formatter.alignment_for_arguments_in_method_invocation" value="16"/>
+
+    <!-- Organize imports left to IDE/tools; Spotless will not modify order here. -->
+  </profile>
+</profiles>
+
