@@ -42,8 +42,7 @@ subprojects {
 
     spotless {
         java {
-            // Eclipse JDT formatter with 4-space indent, 120 width
-            eclipse().configFile(rootProject.file('config/spotless/eclipse-java-formatter.xml'))
+            googleJavaFormat()
             trimTrailingWhitespace()
             endWithNewline()
         }

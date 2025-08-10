@@ -7,7 +7,7 @@ import lombok.Value;
 @Value
 @Builder
 @AllArgsConstructor
-public class BicCameraResponse{
-    private final String productName;
-    private final int price;
+public class BicCameraResponse {
+  private final String productName;
+  private final int price;
 }
