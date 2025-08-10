@@ -1,4 +1,4 @@
-package com.mizegret.mps.mps_api.controller;
+package com.mizegret.mps.mps_api.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
