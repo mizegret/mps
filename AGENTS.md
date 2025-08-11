@@ -6,7 +6,7 @@
   - Source: `mps-api/src/main/java/com/mizegret/mps/mps_api/...`
   - Config: `mps-api/src/main/resources/application.yml`
   - Tests: `mps-api/src/test/java/...`
-- `mps-shared/`: Shared library (DTOs, handlers). Packs as a plain JAR (`bootJar` disabled).
+- `mps-core/`: Shared library (DTOs, handlers). Packs as a plain JAR (`bootJar` disabled).
 
 ## Build, Test, and Development Commands
 - Build all: `./gradlew build` — compiles modules and runs tests.

@@ -1,8 +1,8 @@
-package com.mizegret.mps.mps_shared.handler;
+package com.mizegret.mps.mps_core.handler;
 
-import com.mizegret.mps.mps_shared.dtos.ValidationError;
-import com.mizegret.mps.mps_shared.exception.BlockedException;
-import com.mizegret.mps.mps_shared.exception.ExtractFailureException;
+import com.mizegret.mps.mps_core.dtos.ValidationError;
+import com.mizegret.mps.mps_core.exception.BlockedException;
+import com.mizegret.mps.mps_core.exception.ExtractFailureException;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;

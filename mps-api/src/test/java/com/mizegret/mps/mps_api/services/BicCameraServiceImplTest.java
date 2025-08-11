@@ -8,8 +8,8 @@ import static org.mockito.Mockito.when;
 
 import com.mizegret.mps.mps_api.dtos.BicCameraRequest;
 import com.mizegret.mps.mps_api.dtos.BicCameraResponse;
-import com.mizegret.mps.mps_shared.exception.BlockedException;
-import com.mizegret.mps.mps_shared.exception.ExtractFailureException;
+import com.mizegret.mps.mps_core.exception.BlockedException;
+import com.mizegret.mps.mps_core.exception.ExtractFailureException;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
@@ -39,8 +39,14 @@ class BicCameraServiceImplTest {
   }
 
   private String createDummyHtml(String productName, String price) {
-    String h1 = (productName != null) ? String.format("<h1 id=\"PROD-CURRENT-NAME\">%s</h1>", productName) : "";
-    String strong = (price != null) ? String.format("<strong itemprop=\"price\" content=\"%s\">¥%s</strong>", price, price) : "";
+    String h1 =
+        (productName != null)
+            ? String.format("<h1 id=\"PROD-CURRENT-NAME\">%s</h1>", productName)
+            : "";
+    String strong =
+        (price != null)
+            ? String.format("<strong itemprop=\"price\" content=\"%s\">¥%s</strong>", price, price)
+            : "";
 
     return String.format(
         """
@@ -51,7 +57,7 @@ class BicCameraServiceImplTest {
         </head>
         <body>
             %s
-            <div class="bcs_price">
+            <div class=\"bcs_price\">
                 %s
             </div>
         </body>
@@ -69,7 +75,8 @@ class BicCameraServiceImplTest {
     byte[] responseBody = html.getBytes(StandardCharsets.UTF_8);
 
     when(httpService.buildGetHttpRequest(any(String.class), any()))
-        .thenReturn(HttpRequest.newBuilder().uri(java.net.URI.create(request.getProductUrl())).build());
+        .thenReturn(
+            HttpRequest.newBuilder().uri(java.net.URI.create(request.getProductUrl())).build());
     when(httpService.sendBytes(any(HttpRequest.class))).thenReturn(httpResponse);
     when(httpResponse.statusCode()).thenReturn(HttpStatus.OK.value());
     when(httpResponse.body()).thenReturn(responseBody);
@@ -88,12 +95,12 @@ class BicCameraServiceImplTest {
   void scrape_blocked() throws Exception {
     // Arrange
     when(httpService.buildGetHttpRequest(any(String.class), any()))
-        .thenReturn(HttpRequest.newBuilder().uri(java.net.URI.create(request.getProductUrl())).build());
+        .thenReturn(
+            HttpRequest.newBuilder().uri(java.net.URI.create(request.getProductUrl())).build());
     when(httpService.sendBytes(any(HttpRequest.class))).thenReturn(httpResponse);
     when(httpResponse.statusCode()).thenReturn(HttpStatus.FORBIDDEN.value());
     when(httpResponse.body()).thenReturn(new byte[0]);
     when(httpResponse.headers()).thenReturn(httpResponseHeaders(""));
-
 
     // Act & Assert
     assertThrows(BlockedException.class, () -> bicCameraService.scrape(request));
@@ -106,7 +113,8 @@ class BicCameraServiceImplTest {
     byte[] responseBody = html.getBytes(StandardCharsets.UTF_8);
 
     when(httpService.buildGetHttpRequest(any(String.class), any()))
-        .thenReturn(HttpRequest.newBuilder().uri(java.net.URI.create(request.getProductUrl())).build());
+        .thenReturn(
+            HttpRequest.newBuilder().uri(java.net.URI.create(request.getProductUrl())).build());
     when(httpService.sendBytes(any(HttpRequest.class))).thenReturn(httpResponse);
     when(httpResponse.statusCode()).thenReturn(HttpStatus.OK.value());
     when(httpResponse.body()).thenReturn(responseBody);
@@ -123,7 +131,8 @@ class BicCameraServiceImplTest {
     byte[] responseBody = html.getBytes(StandardCharsets.UTF_8);
 
     when(httpService.buildGetHttpRequest(any(String.class), any()))
-        .thenReturn(HttpRequest.newBuilder().uri(java.net.URI.create(request.getProductUrl())).build());
+        .thenReturn(
+            HttpRequest.newBuilder().uri(java.net.URI.create(request.getProductUrl())).build());
     when(httpService.sendBytes(any(HttpRequest.class))).thenReturn(httpResponse);
     when(httpResponse.statusCode()).thenReturn(HttpStatus.OK.value());
     when(httpResponse.body()).thenReturn(responseBody);
@@ -139,16 +148,18 @@ class BicCameraServiceImplTest {
     String productName = "Gzipped Product";
     String price = "12345";
     String html = createDummyHtml(productName, price);
-    
+
     // Gzip the HTML
     java.io.ByteArrayOutputStream byteStream = new java.io.ByteArrayOutputStream();
-    try (java.util.zip.GZIPOutputStream gzipStream = new java.util.zip.GZIPOutputStream(byteStream)) {
-        gzipStream.write(html.getBytes(StandardCharsets.UTF_8));
+    try (java.util.zip.GZIPOutputStream gzipStream =
+        new java.util.zip.GZIPOutputStream(byteStream)) {
+      gzipStream.write(html.getBytes(StandardCharsets.UTF_8));
     }
     byte[] responseBody = byteStream.toByteArray();
 
     when(httpService.buildGetHttpRequest(any(String.class), any()))
-        .thenReturn(HttpRequest.newBuilder().uri(java.net.URI.create(request.getProductUrl())).build());
+        .thenReturn(
+            HttpRequest.newBuilder().uri(java.net.URI.create(request.getProductUrl())).build());
     when(httpService.sendBytes(any(HttpRequest.class))).thenReturn(httpResponse);
     when(httpResponse.statusCode()).thenReturn(HttpStatus.OK.value());
     when(httpResponse.body()).thenReturn(responseBody);

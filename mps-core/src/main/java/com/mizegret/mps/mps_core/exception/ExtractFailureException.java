@@ -1,6 +1,6 @@
-package com.mizegret.mps.mps_shared.exception;
+package com.mizegret.mps.mps_core.exception;
 
-import com.mizegret.mps.mps_shared.enums.ExtractFailureType;
+import com.mizegret.mps.mps_core.enums.ExtractFailureType;
 import org.springframework.lang.NonNull;
 
 public class ExtractFailureException extends RuntimeException {

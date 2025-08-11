@@ -1,4 +1,4 @@
-package com.mizegret.mps.mps_shared.exception;
+package com.mizegret.mps.mps_core.exception;
 
 public class BlockedException extends RuntimeException {
   public BlockedException(String message) {

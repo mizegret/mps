@@ -2,9 +2,9 @@ package com.mizegret.mps.mps_api.services;
 
 import com.mizegret.mps.mps_api.dtos.BicCameraRequest;
 import com.mizegret.mps.mps_api.dtos.BicCameraResponse;
-import com.mizegret.mps.mps_shared.enums.ExtractFailureType;
-import com.mizegret.mps.mps_shared.exception.BlockedException;
-import com.mizegret.mps.mps_shared.exception.ExtractFailureException;
+import com.mizegret.mps.mps_core.enums.ExtractFailureType;
+import com.mizegret.mps.mps_core.exception.BlockedException;
+import com.mizegret.mps.mps_core.exception.ExtractFailureException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.http.HttpRequest;

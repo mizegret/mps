@@ -1,4 +1,4 @@
-package com.mizegret.mps.mps_shared.dtos;
+package com.mizegret.mps.mps_core.dtos;
 
 import lombok.Value;
 import org.springframework.lang.NonNull;

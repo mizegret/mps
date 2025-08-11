@@ -1,4 +1,4 @@
-package com.mizegret.mps.mps_shared.enums;
+package com.mizegret.mps.mps_core.enums;
 
 public enum ExtractFailureType {
   ELEMENT_NOT_FOUND,

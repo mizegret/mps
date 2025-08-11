@@ -1,4 +1,4 @@
-package com.mizegret.mps.mps_shared.filters;
+package com.mizegret.mps.mps_core.filters;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

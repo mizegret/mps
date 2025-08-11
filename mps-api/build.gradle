@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    implementation project(':mps-shared')
+    implementation project(':mps-core')
     implementation 'org.jsoup:jsoup:1.21.1'
     // Expose /v3/api-docs for Spring Boot 3
     developmentOnly 'org.springdoc:springdoc-openapi-starter-webmvc-api:2.8.9'
