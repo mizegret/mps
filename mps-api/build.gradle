@@ -1,4 +1,43 @@
+plugins {
+    id 'org.openapi.generator' version '7.14.0'
+    id 'org.springdoc.openapi-gradle-plugin' version '1.9.0'
+}
+
 dependencies {
     implementation project(':mps-shared')
     implementation 'org.jsoup:jsoup:1.21.1'
+    // Expose /v3/api-docs for Spring Boot 3
+    developmentOnly 'org.springdoc:springdoc-openapi-starter-webmvc-api:2.8.9'
+}
+
+// Configure where Springdoc writes the OpenAPI spec
+openApi {
+    // Hit the local api-docs endpoint; plugin starts the app under the hood
+    apiDocsUrl.set("http://localhost:8080/v3/api-docs.yaml")
+    outputDir.set(file("$buildDir/openapi"))
+    outputFileName.set("openapi.yaml")
+    waitTimeInSeconds.set(30)
+}
+
+// Configure OpenAPI Generator for Java client output
+openApiGenerate {
+    generatorName.set('java')
+    inputSpec.set("$buildDir/openapi/openapi.yaml")
+    outputDir.set("$buildDir/generated/openapi-client")
+
+    apiPackage.set('com.mizegret.mps.client.api')
+    modelPackage.set('com.mizegret.mps.client.model')
+    invokerPackage.set('com.mizegret.mps.client.invoker')
+
+    library.set('webclient')
+    configOptions.set([
+        dateLibrary: 'java8',
+        useJakartaEe: 'true',
+        serializationLibrary: 'jackson',
+        hideGenerationTimestamp: 'true'
+    ])
+}
+// Ensure the client is generated from the fresh API docs
+tasks.named('openApiGenerate').configure {
+    dependsOn tasks.named('generateOpenApiDocs')
 }
