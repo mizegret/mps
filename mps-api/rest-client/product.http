@@ -1,0 +1,130 @@
+@host = http://localhost:8080
+@base = {{host}}/api/v1/products
+# 切り替えたい場合:
+# @base = {{host}}/api/v1/master/products
+
+### 一覧取得
+GET {{base}}
+Accept: application/json
+
+### 単一取得（例: id=1）
+GET {{base}}/1
+Accept: application/json
+
+### 作成
+@name createProduct
+POST {{base}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Sample Product",
+  "description": "first create via REST Client"
+}
+
+### 作成直後のIDで単一取得（レスポンス変数を利用）
+GET {{base}}/{{$createProduct.response.body.id}}
+Accept: application/json
+
+### 部分更新（PATCH）
+PATCH {{base}}/{{$createProduct.response.body.id}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "description": "updated via PATCH"
+}
+
+### 単一削除
+DELETE {{base}}/{{$createProduct.response.body.id}}
+
+### 全削除
+DELETE {{base}}
+
+
+### 400: バリデーション（必須name欠落）
+POST {{base}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "description": "no name"
+}
+
+### 400: バリデーション（nameが空文字）
+POST {{base}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "",
+  "description": "blank name"
+}
+
+### 400: バリデーション（PATCHで空文字 → @Size(min=1)想定）
+PATCH {{base}}/1
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": ""
+}
+
+### 400: パスの制約違反（負数ID） @Positive 前提
+GET {{base}}/-1
+Accept: application/json
+
+
+### 404: 未存在ID取得（サービスがOptional→404返す想定）
+GET {{base}}/999999
+Accept: application/json
+
+### 404: 未存在IDにPATCH
+PATCH {{base}}/999999
+Content-Type: application/json
+Accept: application/json
+
+{
+  "description": "update non-existent"
+}
+
+### 405: サポートしてないHTTPメソッド（PUT未実装想定）
+PUT {{base}}/1
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "should fail"
+}
+
+### 406: Not Acceptable（受理できないAccept）
+GET {{base}}/1
+Accept: application/xml
+
+### 415: Unsupported Media Type（Content-Type不正）
+POST {{base}}
+Content-Type: text/plain
+Accept: application/json
+
+name=abc&description=plain
+
+### 409: 競合（重複登録などをアプリ側で検出する想定）
+@dup createDup1
+POST {{base}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "dup-key",
+  "description": "first"
+}
+
+### 409想定（同じキーで再作成）※アプリ側に重複チェックがある前提
+POST {{base}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "dup-key",
+  "description": "second"
+}

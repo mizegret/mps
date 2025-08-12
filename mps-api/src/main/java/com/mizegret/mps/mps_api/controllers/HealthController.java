@@ -13,7 +13,7 @@ public class HealthController {
 
   public static final String HEALTH_ENDPOINT = "/api/v1/health";
 
-  @GetMapping(value = "")
+  @GetMapping
   public ResponseEntity<String> health() {
     log.info("Received request for {}", HEALTH_ENDPOINT);
     final String response = "Hello, MPS API is running!";

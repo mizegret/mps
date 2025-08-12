@@ -18,7 +18,7 @@ public class BicCameraController {
 
   private final BicCameraService bicCameraService;
 
-  @PostMapping(value = "")
+  @PostMapping
   public ResponseEntity<BicCameraResponse> scrapeProduct(
       @Valid @RequestBody BicCameraRequest request) throws Exception {
     BicCameraResponse response = bicCameraService.scrape(request);
