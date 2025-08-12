@@ -1,13 +1,13 @@
 package com.mizegret.mps.mps_api.proxy;
 
 import lombok.Value;
-import org.springframework.lang.NonNull;
+import lombok.NonNull;
 
 @Value
 public class Proxy {
   @NonNull String host;
 
-  @NonNull int port;
+  int port;
 
   @NonNull String userName;
 

@@ -3,7 +3,7 @@ package com.mizegret.mps.mps_api.services;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.LinkedHashMap;
-import org.springframework.lang.NonNull;
+import lombok.NonNull;
 
 public interface HttpService {
 

@@ -1,7 +1,7 @@
 package com.mizegret.mps.mps_core.exception;
 
 import com.mizegret.mps.mps_core.enums.ExtractFailureType;
-import org.springframework.lang.NonNull;
+import lombok.NonNull;
 
 public class ExtractFailureException extends RuntimeException {
   @NonNull private final String url;

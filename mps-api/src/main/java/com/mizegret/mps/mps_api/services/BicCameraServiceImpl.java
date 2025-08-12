@@ -30,7 +30,7 @@ import org.jsoup.select.Elements;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.lang.NonNull;
+import lombok.NonNull;
 import org.springframework.stereotype.Service;
 
 @Slf4j

@@ -2,7 +2,7 @@ package com.mizegret.mps.mps_api.proxy;
 
 import java.net.http.HttpClient;
 import lombok.Value;
-import org.springframework.lang.NonNull;
+import lombok.NonNull;
 
 @Value
 public class ProxyRoute {

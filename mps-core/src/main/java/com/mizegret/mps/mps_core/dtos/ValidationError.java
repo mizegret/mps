@@ -1,7 +1,7 @@
 package com.mizegret.mps.mps_core.dtos;
 
 import lombok.Value;
-import org.springframework.lang.NonNull;
+import lombok.NonNull;
 
 @Value
 public class ValidationError {
