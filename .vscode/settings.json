@@ -6,5 +6,17 @@
     "java.configuration.updateBuildConfiguration": "automatic",
     "java.compile.nullAnalysis.mode": "automatic",
     "java.import.gradle.wrapper.enabled": true,
-    "files.autoGuessEncoding": true
+    "files.autoGuessEncoding": true,
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "dev",
+            "database": "mps",
+            "username": "mps",
+            "password": "mps"
+        }
+    ]
 }
