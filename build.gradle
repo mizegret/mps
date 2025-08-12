@@ -32,7 +32,8 @@ subprojects {
         implementation 'org.mapstruct:mapstruct:1.6.3'
 
         developmentOnly 'org.springframework.boot:spring-boot-devtools'
-        developmentOnly 'com.h2database:h2'
+
+        runtimeOnly 'org.postgresql:postgresql'
 
         // https://stackoverflow.com/questions/53326271/spring-nullable-annotation-generates-unknown-enum-constant-warning
         compileOnly 'com.google.code.findbugs:jsr305:3.0.2'
