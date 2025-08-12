@@ -12,10 +12,9 @@ GET {{base}}/1
 Accept: application/json
 
 ### 作成
-@name createProduct
+# @name createProduct
 POST {{base}}
 Content-Type: application/json
-Accept: application/json
 
 {
   "name": "Sample Product",
@@ -23,11 +22,11 @@ Accept: application/json
 }
 
 ### 作成直後のIDで単一取得（レスポンス変数を利用）
-GET {{base}}/{{$createProduct.response.body.id}}
+GET {{base}}/{{createProduct.response.body.$.id}}
 Accept: application/json
 
 ### 部分更新（PATCH）
-PATCH {{base}}/{{$createProduct.response.body.id}}
+PATCH {{base}}/{{createProduct.response.body.$.id}}
 Content-Type: application/json
 Accept: application/json
 
@@ -35,8 +34,22 @@ Accept: application/json
   "description": "updated via PATCH"
 }
 
+### 更新（PATCH）
+PATCH {{base}}/{{createProduct.response.body.$.id}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "updated via PATCH",
+  "description": "updated via PATCH"
+}
+
+### 変更直後のIDで単一取得（レスポンス変数を利用）
+GET {{base}}/{{createProduct.response.body.$.id}}
+Accept: application/json
+
 ### 単一削除
-DELETE {{base}}/{{$createProduct.response.body.id}}
+DELETE {{base}}/{{createProduct.response.body.$.id}}
 
 ### 全削除
 DELETE {{base}}
@@ -62,7 +75,7 @@ Accept: application/json
 }
 
 ### 400: バリデーション（PATCHで空文字 → @Size(min=1)想定）
-PATCH {{base}}/1
+PATCH {{base}}/{{createProduct.response.body.$.id}}
 Content-Type: application/json
 Accept: application/json
 
@@ -70,9 +83,14 @@ Accept: application/json
   "name": ""
 }
 
-### 400: パスの制約違反（負数ID） @Positive 前提
-GET {{base}}/-1
+### 400: バリデーション
+PATCH {{base}}/{{createProduct.response.body.$.id}}
+Content-Type: application/json
 Accept: application/json
+
+{
+
+}
 
 
 ### 404: 未存在ID取得（サービスがOptional→404返す想定）

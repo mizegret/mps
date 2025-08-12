@@ -3,13 +3,15 @@ package com.mizegret.mps.mps_core.handler;
 import com.mizegret.mps.mps_core.dtos.ValidationError;
 import com.mizegret.mps.mps_core.exception.BlockedException;
 import com.mizegret.mps.mps_core.exception.ExtractFailureException;
+import com.mizegret.mps.mps_core.exception.ResourceNotFoundException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Path.Node;
 import java.util.List;
+import java.util.stream.Stream;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
-import org.springframework.lang.NonNull;
+import lombok.NonNull;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -32,11 +34,16 @@ public class GlobalExceptionHandler {
         ProblemDetail.forStatusAndDetail(
             HttpStatus.BAD_REQUEST,
             "Validation failed for one or more fields. Please check the request body.");
-    final List<ValidationError> validationErrors =
+    final List<ValidationError> fieldErrors =
         ex.getBindingResult().getFieldErrors().stream()
             .map(error -> new ValidationError(error.getField(), error.getDefaultMessage()))
             .toList();
-    problemDetail.setProperty("errors", validationErrors);
+    final List<ValidationError> globalErrors =
+        ex.getBindingResult().getGlobalErrors().stream()
+            .map(error -> new ValidationError("all", error.getDefaultMessage()))
+            .toList();
+    problemDetail.setProperty(
+        "errors", Stream.concat(fieldErrors.stream(), globalErrors.stream()).toList());
 
     return problemDetail;
   }
@@ -75,6 +82,11 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(NoResourceFoundException.class)
   public ProblemDetail handleNoResourceFoundException(@NonNull NoResourceFoundException ex) {
     return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, "Not found endpoint...");
+  }
+
+  @ExceptionHandler(ResourceNotFoundException.class)
+  public ProblemDetail handleResourceNotFoundException(@NonNull ResourceNotFoundException ex) {
+    return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
   }
 
   @ExceptionHandler({BlockedException.class, ExtractFailureException.class})

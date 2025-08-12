@@ -27,12 +27,21 @@ subprojects {
     dependencies {
         implementation 'org.springframework.boot:spring-boot-starter-web'
         implementation 'org.springframework.boot:spring-boot-starter-validation'
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
         implementation 'org.springframework.boot:spring-boot-starter-aop'
+        implementation 'org.mapstruct:mapstruct:1.6.3'
+
         developmentOnly 'org.springframework.boot:spring-boot-devtools'
-        compileOnly 'org.projectlombok:lombok'
+        developmentOnly 'com.h2database:h2'
+
         // https://stackoverflow.com/questions/53326271/spring-nullable-annotation-generates-unknown-enum-constant-warning
         compileOnly 'com.google.code.findbugs:jsr305:3.0.2'
+        compileOnly 'org.projectlombok:lombok'
+
         annotationProcessor 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+        annotationProcessor  'org.mapstruct:mapstruct-processor:1.6.3'
+        
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
     }
 
