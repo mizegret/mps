@@ -35,6 +35,9 @@ public class HttpServiceImpl implements HttpService {
   @NonNull
   @Override
   public HttpResponse<byte[]> sendBytes(@NonNull HttpRequest request) throws Exception {
+    if (proxyRoutePool.isEmpty()) {
+      return defaultHttpClient.send(request, HttpResponse.BodyHandlers.ofByteArray());
+    }
     final ProxyRoute proxyRoute = proxyRoutePool.next();
     log.info("sending to {} via {}", request.uri(), proxyRoute.getProxy().getHost());
     return proxyRoute.getHttpClient().send(request, HttpResponse.BodyHandlers.ofByteArray());

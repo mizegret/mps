@@ -2,6 +2,7 @@ package com.mizegret.mps.mps_api.proxy;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Authenticator;
 import java.net.InetSocketAddress;
@@ -25,16 +26,21 @@ public class ProxyRoutePool {
 
   public ProxyRoutePool() throws IOException {
     List<Proxy> proxies = Collections.emptyList();
-    try (final BufferedReader br =
-        new BufferedReader(
-            new InputStreamReader(
-                getClass().getResourceAsStream("/proxy-list.txt"), StandardCharsets.UTF_8))) {
-      proxies =
-          br.lines()
-              .map(String::trim)
-              .map(line -> line.split(":", 4))
-              .map(l -> new Proxy(l[0], Integer.parseInt(l[1]), l[2], l[3]))
-              .toList();
+    final InputStream is = getClass().getResourceAsStream("/proxy-list.txt");
+    if (is == null) {
+      log.warn("proxy-list.txt not found; no proxies will be configured");
+    } else {
+      try (final BufferedReader br =
+          new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
+        proxies =
+            br.lines()
+                .map(String::trim)
+                .filter(line -> !line.isEmpty() && !line.startsWith("#"))
+                .map(line -> line.split(":", 4))
+                .filter(parts -> parts.length == 4)
+                .map(l -> new Proxy(l[0], Integer.parseInt(l[1]), l[2], l[3]))
+                .toList();
+      }
     }
     this.proxyRoutes =
         proxies.stream()
