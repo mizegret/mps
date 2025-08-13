@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+cd "$REPO_ROOT"
+
+echo "→ Running Spotless: ./gradlew spotlessApply"
+./gradlew --quiet spotlessApply
+
+if ! git diff --quiet -- .; then
+  echo ""
+  echo "Spotless formatted files. Please add changes and commit again."
+  git status --short
+  exit 1
+fi
+
+exit 0
