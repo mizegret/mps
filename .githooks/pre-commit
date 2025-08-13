@@ -15,4 +15,9 @@ if ! git diff --quiet -- .; then
   exit 1
 fi
 
+if [ -d "mps-api" ]; then
+  echo "→ Validating Flyway migration filenames/dates"
+  ./gradlew --quiet :mps-api:validateFlywayMigrations
+fi
+
 exit 0
