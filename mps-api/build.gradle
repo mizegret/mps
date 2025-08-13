@@ -1,6 +1,14 @@
+// https://github.com/flyway/flyway/issues/3774#issuecomment-2408650981
+buildscript {
+    dependencies {
+        classpath("org.flywaydb:flyway-database-postgresql:11.11.0")
+    }
+}
+
 plugins {
     id 'org.openapi.generator' version '7.14.0'
     id 'org.springdoc.openapi-gradle-plugin' version '1.9.0'
+    id 'org.flywaydb.flyway' version '11.11.0'
 }
 
 dependencies {
@@ -41,3 +49,67 @@ openApiGenerate {
 tasks.named('openApiGenerate').configure {
     dependsOn tasks.named('generateOpenApiDocs')
 }
+
+/* ---------------------- Flyway ---------------------- */
+
+def env     = System.getenv()
+def host    = env.DB_HOST ?: 'localhost'
+def port    = env.DB_PORT ?: '5432'
+def dbName  = env.DB_NAME ?: 'mps'
+def dbUser  = env.DB_USER ?: 'mps'
+def dbPass  = env.DB_PASS ?: 'mps'
+def flywayCleanDisabled = env.FLYWAY_CLEAN_DISABLED ?: true
+
+flyway {
+    url           = "jdbc:postgresql://${host}:${port}/${dbName}"
+    user          = dbUser
+    password      = dbPass
+    locations     = ['filesystem:src/main/resources/db/migration']
+    schemas       = ['public', 'reference']
+    cleanDisabled = flywayCleanDisabled
+}
+
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
+import java.util.regex.Pattern
+
+tasks.register('validateFlywayMigrations') {
+    final def DATE_REGEX = "\\d{4}\\.\\d{2}\\.\\d{2}"
+    final def DATE_FORMAT = "yyyy.MM.dd"
+    
+    final def migrationExclusions = [/* migration names exclusions */]
+    final def migrationPattern = "^V${DATE_REGEX}__([a-z]+_){1,}[a-z]+\\.sql\$"
+    final def datePattern = Pattern.compile(DATE_REGEX)
+
+    doLast {
+        for (final def file in fileTree('src/main/resources/db/migration')) {
+            final String migrationName = file.getName()
+            if (!file.isFile() || migrationExclusions.contains(migrationName)) {
+                continue
+            }
+            if (!migrationName.matches(migrationPattern)) {
+                throw new GradleException("Migration '$migrationName' does not match pattern '$migrationPattern'")
+            }
+            final def matcher = datePattern.matcher(migrationName)
+            if (matcher.find()) {
+                final def date = matcher.group()
+                try {
+                    LocalDate.parse(date, DateTimeFormatter.ofPattern(DATE_FORMAT))
+                } catch (DateTimeParseException e) {
+                    throw new GradleException(
+                            "Migration '$migrationName' has invalid date value. Couldn't be parsed with pattern '$DATE_FORMAT'",
+                            e
+                    )
+                }
+            } else {
+                throw new GradleException("Migration '$migrationName' has no date by pattern '$datePattern'")
+            }
+        }
+    }
+}
+
+tasks.withType(org.flywaydb.gradle.task.AbstractFlywayTask).configureEach {
+    dependsOn(tasks.named('validateFlywayMigrations'))
+}
+
