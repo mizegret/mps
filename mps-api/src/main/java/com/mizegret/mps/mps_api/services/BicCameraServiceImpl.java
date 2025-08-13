@@ -21,6 +21,7 @@ import java.util.Optional;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.Inflater;
 import java.util.zip.InflaterInputStream;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -30,7 +31,6 @@ import org.jsoup.select.Elements;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import lombok.NonNull;
 import org.springframework.stereotype.Service;
 
 @Slf4j

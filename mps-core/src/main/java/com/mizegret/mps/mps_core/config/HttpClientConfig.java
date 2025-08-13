@@ -1,4 +1,4 @@
-package com.mizegret.mps.mps_api.config;
+package com.mizegret.mps.mps_core.config;
 
 import java.net.http.HttpClient;
 import org.springframework.context.annotation.Bean;

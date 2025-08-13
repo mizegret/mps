@@ -4,12 +4,8 @@ import com.mizegret.mps.mps_api.dtos.products.CreateProductRequest;
 import com.mizegret.mps.mps_api.dtos.products.PatchProductRequest;
 import com.mizegret.mps.mps_api.dtos.products.ProductResponse;
 import com.mizegret.mps.mps_api.entities.Product;
-
-import lombok.NonNull;
-
 import java.util.List;
-import org.mapstruct.AfterMapping;
-import org.mapstruct.BeanMapping;
+import lombok.NonNull;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -29,20 +25,16 @@ public interface ProductMapper {
   List<ProductResponse> toResponseList(@NonNull List<Product> entities);
 
   // dto -> entity
-  @Mapping(target = "id", expression = "java(java.util.UUID.randomUUID())")
-  @Mapping(target = "createdAt", expression = "java(java.time.OffsetDateTime.now())")
-  @Mapping(target = "updatedAt", expression = "java(java.time.OffsetDateTime.now())")
+  @Mapping(target = "id", ignore = true)
+  @Mapping(target = "createdAt", ignore = true)
+  @Mapping(target = "updatedAt", ignore = true)
   Product toEntity(@NonNull CreateProductRequest req);
 
-  @BeanMapping(
-      ignoreByDefault = true,
+  @Mapping(target = "id", ignore = true)
+  @Mapping(
+      target = "name",
       nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-  @Mapping(target = "name", source = "name")
-  @Mapping(target = "description", source = "description")
-  void merge(@NonNull @MappingTarget Product target, @NonNull PatchProductRequest patch);
-
-  @AfterMapping
-  default void touchUpdatedAt(@NonNull @MappingTarget Product target, @NonNull PatchProductRequest patch) {
-    target.setUpdatedAt(java.time.OffsetDateTime.now());
-  }
+  @Mapping(target = "createdAt", ignore = true)
+  @Mapping(target = "updatedAt", ignore = true)
+  void merge(@MappingTarget Product entity, @NonNull PatchProductRequest req);
 }

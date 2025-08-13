@@ -5,12 +5,12 @@ import com.mizegret.mps.mps_api.dtos.products.PatchProductRequest;
 import com.mizegret.mps.mps_api.dtos.products.ProductResponse;
 import com.mizegret.mps.mps_api.entities.Product;
 import com.mizegret.mps.mps_api.mappers.ProductMapper;
-import com.mizegret.mps.mps_api.repositories.ProductRepository;
+import com.mizegret.mps.mps_api.repositories.ProductJpaRepository;
 import com.mizegret.mps.mps_core.exception.ResourceNotFoundException;
 import java.util.List;
 import java.util.UUID;
-import lombok.RequiredArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,16 +21,16 @@ public class ProductServiceImpl implements ProductService {
 
   private static final String RESOURCE_NAME = "Product";
   private final ProductMapper productMapper;
-  private final ProductRepository productRepository;
+  private final ProductJpaRepository productJpaRepository;
 
   @Override
   public List<ProductResponse> getAllProducts() {
-    return productMapper.toResponseList(productRepository.findAll());
+    return productMapper.toResponseList(productJpaRepository.findAll());
   }
 
   @Override
   public ProductResponse getProductById(@NonNull UUID id) {
-    return productRepository
+    return productJpaRepository
         .findById(id)
         .map(productMapper::toResponse)
         .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME, id.toString()));
@@ -39,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
   @Override
   @Transactional
   public ProductResponse createProduct(@NonNull CreateProductRequest req) {
-    final Product saved = productRepository.save(productMapper.toEntity(req));
+    final Product saved = productJpaRepository.save(productMapper.toEntity(req));
     return productMapper.toResponse(saved);
   }
 
@@ -47,23 +47,23 @@ public class ProductServiceImpl implements ProductService {
   @Transactional
   public ProductResponse patchProduct(@NonNull UUID id, @NonNull PatchProductRequest req) {
     final Product product =
-        productRepository
+        productJpaRepository
             .findById(id)
             .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME, id.toString()));
     productMapper.merge(product, req);
-    final Product updated = productRepository.save(product);
+    final Product updated = productJpaRepository.save(product);
     return productMapper.toResponse(updated);
   }
 
   @Override
   @Transactional
   public void deleteAllProducts() {
-    productRepository.deleteAll();
+    productJpaRepository.deleteAll();
   }
 
   @Override
   @Transactional
   public void deleteProductById(@NonNull UUID id) {
-    productRepository.deleteById(id);
+    productJpaRepository.deleteById(id);
   }
 }

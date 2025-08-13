@@ -1,8 +1,8 @@
 package com.mizegret.mps.mps_api.proxy;
 
 import java.net.http.HttpClient;
-import lombok.Value;
 import lombok.NonNull;
+import lombok.Value;
 
 @Value
 public class ProxyRoute {

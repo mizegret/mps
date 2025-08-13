@@ -1,8 +1,7 @@
-package com.mizegret.mps.mps_api.validators;
+package com.mizegret.mps.mps_core.validators;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Objects;

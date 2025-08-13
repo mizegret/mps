@@ -26,7 +26,7 @@ import com.mizegret.mps.mps_api.services.ProductService;
 import com.mizegret.mps.mps_core.exception.ResourceNotFoundException;
 import com.mizegret.mps.mps_core.handler.GlobalExceptionHandler;
 import jakarta.validation.ConstraintViolationException;
-import java.time.OffsetDateTime;
+import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -52,11 +52,7 @@ public class ProductControllerTest {
 
   private ProductResponse createTestProductResponse() {
     return new ProductResponse(
-        UUID.randomUUID(),
-        "Test Product",
-        "Test Description",
-        OffsetDateTime.now(),
-        OffsetDateTime.now());
+        UUID.randomUUID(), "Test Product", "Test Description", Instant.now(), Instant.now());
   }
 
   @Test
@@ -103,7 +99,9 @@ public class ProductControllerTest {
 
   @Test
   void getProductById_shouldReturnBadRequest_whenIdIsNotUuid() throws Exception {
-    mockMvc.perform(get(ProductController.BASE_ENDPOINT.concat("/{id}"), "1")).andExpect(status().isBadRequest());
+    mockMvc
+        .perform(get(ProductController.BASE_ENDPOINT.concat("/{id}"), "1"))
+        .andExpect(status().isBadRequest());
   }
 
   @Test
@@ -112,7 +110,9 @@ public class ProductControllerTest {
     when(productService.getProductById(productId))
         .thenThrow(new ResourceNotFoundException("Product not found"));
 
-    mockMvc.perform(get(ProductController.BASE_ENDPOINT.concat("/{id}"), productId)).andExpect(status().isNotFound());
+    mockMvc
+        .perform(get(ProductController.BASE_ENDPOINT.concat("/{id}"), productId))
+        .andExpect(status().isNotFound());
   }
 
   @Test
@@ -123,8 +123,8 @@ public class ProductControllerTest {
             UUID.randomUUID(),
             request.getName(),
             request.getDescription(),
-            OffsetDateTime.now(),
-            OffsetDateTime.now());
+            Instant.now(),
+            Instant.now());
 
     when(productService.createProduct(any(CreateProductRequest.class))).thenReturn(response);
 
@@ -136,7 +136,11 @@ public class ProductControllerTest {
         .andExpect(status().isCreated())
         .andExpect(header().exists("Location"))
         .andExpect(
-            header().string("Location", "http://localhost".concat(ProductController.BASE_ENDPOINT).concat("/") + response.getId()))
+            header()
+                .string(
+                    "Location",
+                    "http://localhost".concat(ProductController.BASE_ENDPOINT).concat("/")
+                        + response.getId()))
         .andExpect(jsonPath("$.id").value(response.getId().toString()))
         .andExpect(jsonPath("$.name").value(response.getName()));
   }
@@ -159,11 +163,7 @@ public class ProductControllerTest {
     PatchProductRequest request = new PatchProductRequest("Patched Name", null);
     ProductResponse response =
         new ProductResponse(
-            productId,
-            request.getName(),
-            "Original Description",
-            OffsetDateTime.now(),
-            OffsetDateTime.now());
+            productId, request.getName(), "Original Description", Instant.now(), Instant.now());
 
     when(productService.patchProduct(eq(productId), any(PatchProductRequest.class)))
         .thenReturn(response);
@@ -236,7 +236,9 @@ public class ProductControllerTest {
     UUID productId = UUID.randomUUID();
     doNothing().when(productService).deleteProductById(productId);
 
-    mockMvc.perform(delete(ProductController.BASE_ENDPOINT.concat("/{id}"), productId)).andExpect(status().isNoContent());
+    mockMvc
+        .perform(delete(ProductController.BASE_ENDPOINT.concat("/{id}"), productId))
+        .andExpect(status().isNoContent());
 
     verify(productService, times(1)).deleteProductById(productId);
   }

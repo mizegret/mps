@@ -11,9 +11,10 @@ spring:
       idle-timeout: 600000
       connection-timeout: 5000
       pool-name: mps-api-pool
-    jpa:
+  jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc.time_zone: UTC
+        hbm2ddl.create_namespaces: true

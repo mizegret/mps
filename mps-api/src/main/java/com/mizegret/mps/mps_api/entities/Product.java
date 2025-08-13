@@ -1,20 +1,32 @@
 package com.mizegret.mps.mps_api.entities;
 
-import java.time.OffsetDateTime;
+import com.mizegret.mps.mps_core.entities.Auditable;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import java.util.UUID;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-@Builder(toBuilder = true)
-public class Product {
-  private final UUID id;
+@Entity
+@Table(schema = "reference", name = "product")
+public class Product extends Auditable {
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  @Column(nullable = false, updatable = false)
+  private UUID id;
+
   @Setter
+  @NotBlank
+  @Column(nullable = false, columnDefinition = "text")
   private String name;
+
   @Setter
+  @Column(columnDefinition = "text")
   private String description;
-  private final OffsetDateTime createdAt;
-  @Setter
-  private OffsetDateTime updatedAt;
 }
