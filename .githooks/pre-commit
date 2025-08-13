@@ -1,22 +1,27 @@
 #!/usr/bin/env bash
-
 set -euo pipefail
 
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 cd "$REPO_ROOT"
 
-echo "→ Running Spotless: ./gradlew spotlessApply"
-./gradlew --quiet spotlessApply
+staged_files="$(git diff --cached --name-only --diff-filter=ACMR)"
 
-if ! git diff --quiet -- .; then
-  echo ""
-  echo "Spotless formatted files. Please add changes and commit again."
-  git status --short
-  exit 1
+staged_java="$(printf "%s\n" "$staged_files" | grep -E '\.java$' || true)"
+if [ -n "${staged_java}" ]; then
+  echo "→ Running Spotless for staged Java files"
+  ./gradlew --quiet spotlessApply
+
+  echo "→ Re-staging formatted files"
+  while IFS= read -r f; do
+    [ -n "$f" ] && git add -- "$f"
+  done <<< "$staged_java"
 fi
 
-if [ -d "mps-api" ]; then
-  echo "→ Validating Flyway migration filenames/dates"
+staged_sql="$(printf "%s\n" "$staged_files" \
+  | grep -E '(^|/)db/migration/[^/]+\.sql$' || true)"
+
+if [ -n "${staged_sql}" ]; then
+  echo "→ Validating Flyway migration filenames/dates for mps-api"
   ./gradlew --quiet :mps-api:validateFlywayMigrations
 fi
 

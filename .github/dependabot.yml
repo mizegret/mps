@@ -1,11 +1,12 @@
 version: 2
 updates:
+  # --- Backend (Gradle) ---
   - package-ecosystem: "gradle"
     directory: "/"
     schedule:
       interval: "monthly"
     labels:
-      - "dependencies"
+      - ["dependencies", "gradle"]
     commit-message:
       prefix: "chore:"
     groups:
@@ -17,12 +18,25 @@ updates:
         update-types: ["major"]
     open-pull-requests-limit: 5
   
-  - package-ecosystem: "github-actions"
-    directory: "/"
+   # --- Frontend (npm) ---
+  - package-ecosystem: "npm"
+    directory: "/mps-web"
     schedule:
       interval: "monthly"
-    labels:
-      - "dependencies"
+    versioning-strategy: increase
+    labels: ["dependencies", "npm"]
+    commit-message:
+      prefix: "chore(npm):"
+    open-pull-requests-limit: 5
     groups:
-      actions-all:
-        patterns: ["*"]  
+      npm-prod-minor-patch:
+        dependency-type: "production"
+        update-types: ["minor", "patch"]
+        patterns: ["*"]
+      npm-dev-minor-patch:
+        dependency-type: "development"
+        update-types: ["minor", "patch"]
+        patterns: ["*"]
+      npm-major:
+        update-types: ["major"]
+        patterns: ["*"]

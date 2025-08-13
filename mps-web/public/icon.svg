@@ -1,0 +1,33 @@
+<!-- mps mark: M × Egret (cutout) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" aria-label="mps mark">
+  <title>M × Egret — mps</title>
+  <desc>Circle mark with an 'M' and an egret silhouette carved out.</desc>
+
+  <!-- 色は currentColor or CSSカスタムプロパティで変更可 -->
+  <defs>
+    <!-- 白=表示 / 黒=くり抜き -->
+    <mask id="mps-cut" maskUnits="userSpaceOnUse">
+      <rect width="256" height="256" fill="#fff"/>
+
+      <!-- M を太ストロークでくり抜き -->
+      <path d="M60 170 L60 86 L128 170 L196 86 L196 170"
+            fill="none" stroke="#000" stroke-width="28"
+            stroke-linecap="round" stroke-linejoin="round"/>
+
+      <!-- Egret（首の曲線） -->
+      <path d="M168 72 C150 92, 142 118, 156 170"
+            fill="none" stroke="#000" stroke-width="20"
+            stroke-linecap="round"/>
+
+      <!-- Egret（クチバシ） -->
+      <polygon points="170,62 198,70 170,78" fill="#000"/>
+
+      <!-- Egret（目） -->
+      <circle cx="172" cy="72" r="4" fill="#000"/>
+    </mask>
+  </defs>
+
+  <!-- 台座（丸）: fill を好きな色に。例: #111827 / currentColor -->
+  <circle cx="128" cy="128" r="120"
+          fill="var(--mps-color, currentColor)" mask="url(#mps-cut)"/>
+</svg>
