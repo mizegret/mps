@@ -4,13 +4,13 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'home',
-    component: () => import('@/pages/Home.vue'),
+    component: () => import('@/pages/home/Index.vue'),
   },
   {
     path: '/products',
     alias: '/me/products',
     name: 'products',
-    component: () => import('@/pages/products/ProductsList.vue'),
+    component: () => import('@/pages/products/Index.vue'),
     meta: { title: 'Products List' },
   },
   { path: '/:pathMatch(.*)*', name: 'not-found', component: () => import('@/pages/NotFound.vue') },
