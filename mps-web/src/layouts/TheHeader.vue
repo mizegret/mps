@@ -22,7 +22,7 @@
         class="iflex-6 [&_.router-link-exact-active]:font-bold"
       >
         <router-link to="/">Home</router-link>
-        <router-link to="/products/new">New Product</router-link>
+        <router-link to="/products">Product</router-link>
       </nav>
     </div>
   </header>
