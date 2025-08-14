@@ -32,7 +32,7 @@ export default [
       parser: vueParser,
       parserOptions: {
         parser: tseslint.parser,
-        project: ['./tsconfig.app.json', './tsconfig.node.json'],
+        project: null,
         tsconfigRootDir: import.meta.dirname,
         extraFileExtensions: ['.vue'],
       },
