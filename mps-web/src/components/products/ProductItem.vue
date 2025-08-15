@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { defineProps } from 'vue'
-  import type { Product } from '@/types/product'
+  import type { Product } from '@/types/model'
 
   defineProps<{
     product: Product
@@ -24,7 +24,7 @@
       uno-text="xs gray-500"
       class="mt-auto pt-3 iflex-2"
     >
-      <time v-if="product.created_at">{{ new Date(product.created_at).toLocaleDateString() }}</time>
+      <time v-if="product.createdAt">{{ new Date(product.createdAt).toLocaleDateString() }}</time>
       <span class="ml-auto opacity-0 transition group-hover:opacity-100">›</span>
     </div>
   </div>

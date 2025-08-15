@@ -10,9 +10,11 @@
     "format": "prettier -w .",
     "format:check": "prettier -c .",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "gen:openapi": "openapi-typescript ../mps-api/build/openapi/openapi.yaml -o ./src/api/generated/schema.d.ts"
   },
   "dependencies": {
+    "openapi-fetch": "^0.14.0",
     "vue": "3.5.18",
     "vue-router": "^4.5.1"
   },

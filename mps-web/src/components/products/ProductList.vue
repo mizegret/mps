@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import ProductItem from '@/components/products/ProductItem.vue'
-  import type { Product } from '@/types/product'
+  import type { Product } from '@/types/model'
 
   defineProps<{
     productList: Product[]
@@ -10,7 +10,7 @@
 <template>
   <ul
     id="product-list"
-    uno-grid="~ cols-1 sm:cols-2 md:cols-3 lg:cols-5"
+    uno-grid="~ cols-1 sm:cols-2 md:cols-3 lg:cols-4 xl:cols-5"
     uno-gap="4 sm:6"
   >
     <li
