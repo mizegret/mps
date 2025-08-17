@@ -24,7 +24,7 @@
     <aside
       v-if="props.modelValue"
       :class="[
-        'fixed top-0 h-full z-50 w-sm bg-white transform-gpu will-change-transform translate-x-0',
+        'fixed top-0 h-full z-50 w-[min(100vw,22rem)] bg-white transform-gpu will-change-transform translate-x-0',
         props.position === 'right' ? 'right-0 border-l-3' : 'left-0 border-r-3',
       ]"
       aria-label="Menu"
