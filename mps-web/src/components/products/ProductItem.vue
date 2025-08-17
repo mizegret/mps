@@ -51,7 +51,7 @@
         <div
           v-if="isOpen"
           ref="root"
-          class="absolute left-0 top-hull mt-1 z-20 min-w-28 rounded-md border border-gray-200 bg-white p-2 shadow-lg"
+          class="absolute left-0 top-full mt-1 z-20 min-w-28 rounded-md border border-gray-200 bg-white p-2 shadow-lg"
         >
           <button
             type="button"
