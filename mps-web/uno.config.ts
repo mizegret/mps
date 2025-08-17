@@ -18,7 +18,7 @@ export default defineConfig({
   transformers: [transformerVariantGroup()],
   shortcuts: [
     { 'flex-between': 'flex items-center justify-between' },
-    { 'app-pad': 'p-4 sm:p-6' },
+    { 'app-pad': 'p-2 sm:p-4' },
     {
       'input-text-base':
         'rounded border border-gray-300 px-3 py-2 outline-none ' +
