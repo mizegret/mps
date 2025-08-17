@@ -6,16 +6,26 @@
 </script>
 
 <template>
-  <template v-if="props.modelValue">
-    <div
-      class="fixed inset-0 bg-black/40 z-40"
-      aria-hidden="true"
-      @click="close"
-    />
+  <div
+    v-if="props.modelValue"
+    class="fixed inset-0 bg-black/40 z-40"
+    aria-hidden="true"
+    @click="close"
+  />
+  <Transition
+    appear
+    :enter-active-class="'transition-transform duration-200 ease-out motion-reduce:transition-none'"
+    :enter-from-class="props.position === 'right' ? 'translate-x-full' : '-translate-x-full'"
+    enter-to-class="translate-x-0"
+    :leave-active-class="'transition-transform duration-150 ease-in motion-reduce:transition-none'"
+    leave-from-class="translate-x-0"
+    :leave-to-class="props.position === 'right' ? 'translate-x-full' : '-translate-x-full'"
+  >
     <aside
+      v-if="props.modelValue"
       :class="[
-        'fixed top-0 h-full z-50 w-sm bg-white shadow-2xl',
-        props.position === 'right' ? 'right-0 border-l-3' : 'left-0  border-r-3',
+        'fixed top-0 h-full z-50 w-sm bg-white transform-gpu will-change-transform translate-x-0',
+        props.position === 'right' ? 'right-0 border-l-3' : 'left-0 border-r-3',
       ]"
       aria-label="Menu"
     >
@@ -46,5 +56,5 @@
         <slot />
       </div>
     </aside>
-  </template>
+  </Transition>
 </template>
