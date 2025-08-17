@@ -3,9 +3,16 @@
   import ProductList from '@/components/products/ProductList.vue'
   import { api } from '@/api/client'
   import type { Product } from '@/types/model'
+  import { useRoute } from 'vue-router'
 
   const productList = ref<Product[]>([])
-  const query = ref('')
+  const route = useRoute()
+
+  const query = computed(() => {
+    const q = route.query.q
+    const v = Array.isArray(q) ? q[0] : q
+    return v ?? ''
+  })
 
   const filtered = computed(() => {
     const v = query.value.trim().toLowerCase()
@@ -24,30 +31,10 @@
 </script>
 
 <template>
-  <section class="max-w-screen-xl mx-auto p-2">
-    <header class="mb-8">
-      <h2 class="mb-4 text-2xl font-bold">Product List</h2>
-
-      <form
-        role="search"
-        class="ml-auto w-full lg:w-[30rem]"
-        @submit.prevent
-      >
-        <input
-          v-model="query"
-          type="search"
-          placeholder="Search products..."
-          aria-label="Search products"
-          aria-controls="product-list"
-          class="w-full input-text-base"
-        />
-      </form>
-    </header>
-
+  <section class="max-w-screen-xl mx-auto p-2 space-y-4">
     <p
       v-if="query"
       uno-text="xs gray-500"
-      class="mb-3"
     >
       {{ filtered.length }} result{{ filtered.length === 1 ? '' : 's' }} for “{{ query }}”
     </p>

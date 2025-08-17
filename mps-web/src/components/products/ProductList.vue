@@ -18,7 +18,7 @@
       :key="p.id"
       uno-border="~ gray-200 hover:gray-300"
       uno-shadow="md hover:lg"
-      class="group overflow-hidden rounded-2xl bg-white transition motion-safe:hover:-translate-y-0.5"
+      class="group rounded-2xl bg-white transition motion-safe:hover:-translate-y-0.5"
     >
       <ProductItem :product="p" />
     </li>

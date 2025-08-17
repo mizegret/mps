@@ -36,6 +36,7 @@ export default [
         tsconfigRootDir: import.meta.dirname,
         extraFileExtensions: ['.vue'],
       },
+      global: global.browser,
     },
     rules: {
       'vue/multi-word-component-names': 'off',
