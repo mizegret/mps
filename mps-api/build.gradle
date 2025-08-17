@@ -53,20 +53,25 @@ tasks.named('openApiGenerate').configure {
 /* ---------------------- Flyway ---------------------- */
 
 def env     = System.getenv()
+def runEnv  = env.RUN_ENV ?: 'dev'
+def isDev   = runEnv.equalsIgnoreCase('dev')
+
 def host    = env.DB_HOST ?: 'localhost'
 def port    = env.DB_PORT ?: '5432'
 def dbName  = env.DB_NAME ?: 'mps'
 def dbUser  = env.DB_USER ?: 'mps'
 def dbPass  = env.DB_PASS ?: 'mps'
-def flywayCleanDisabled = env.FLYWAY_CLEAN_DISABLED ?: true
 
 flyway {
+    def migrateBaseDir = 'filesystem:src/main/resources/db'
+    def base = ["${migrateBaseDir}/migration"]
+
     url           = "jdbc:postgresql://${host}:${port}/${dbName}"
     user          = dbUser
     password      = dbPass
-    locations     = ['filesystem:src/main/resources/db/migration']
+    locations     = isDev ? (base + ["${migrateBaseDir}/fixtures/dev"]) : base
     schemas       = ['public', 'reference']
-    cleanDisabled = flywayCleanDisabled
+    cleanDisabled = !isDev
 }
 
 import java.time.LocalDate
