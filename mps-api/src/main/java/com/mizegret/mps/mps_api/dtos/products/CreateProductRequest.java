@@ -11,7 +11,7 @@ public class CreateProductRequest {
   @Size(max = 200)
   private String name;
 
-  @Size(min = 1, max = 1000)
+  @Size(max = 1000)
   @Pattern(regexp = ".*\\S.*", message = "must not be blank")
   private String description;
 }
