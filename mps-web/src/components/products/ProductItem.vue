@@ -46,7 +46,7 @@
           :class="{ 'opacity-100': isOpen }"
           aria-label="More actions"
         >
-          <span class="i-lucide-more-horizontal inline-block w-4 h-4"></span>
+          <i class="i-lucide-more-horizontal w-4 h-4"></i>
         </button>
         <div
           v-if="isOpen"
