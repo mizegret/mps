@@ -1,13 +1,13 @@
 import { defineConfig, presetIcons, presetWind3, presetAttributify, transformerVariantGroup } from 'unocss'
-import { icons as lucide } from '@iconify-json/lucide'
 
 export default defineConfig({
   presets: [
     presetWind3(),
     presetIcons({
       autoInstall: true,
-      collections: {
-        lucide: () => lucide,
+      mode: 'mask',
+      extraProperties: {
+        display: 'inline-block',
       },
     }),
     presetAttributify({
@@ -31,5 +31,12 @@ export default defineConfig({
     },
     [/^flex-center-(\d+)$/, ([, n]) => `flex items-center gap-${n}`],
     [/^iflex-(\d+)$/, ([, n]) => `inline-flex items-center gap-${n}`],
+    [
+      /^trn-(transform|opacity)-(enter|leave)-(\d+)$/,
+      ([, type, phase, ms]) => {
+        const ease = phase === 'enter' ? 'ease-out' : 'ease-in'
+        return `transition-${type} duration-${ms} ${ease} motion-reduce:transition-none`
+      },
+    ],
   ],
 })

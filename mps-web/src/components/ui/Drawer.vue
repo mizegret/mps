@@ -6,18 +6,27 @@
 </script>
 
 <template>
-  <div
-    v-if="props.modelValue"
-    class="fixed inset-0 bg-black/40 z-40"
-    aria-hidden="true"
-    @click="close"
-  />
+  <Transition
+    enter-active-class="trn-opacity-enter-500"
+    enter-from-class="opacity-0"
+    enter-to-class="opacity-100"
+    leave-active-class="trn-opacity-leave-500"
+    leave-from-class="opacity-100"
+    leave-to-class="opacity-0"
+  >
+    <div
+      v-if="props.modelValue"
+      class="fixed inset-0 bg-black/40 z-40"
+      aria-hidden="true"
+      @click="close"
+    />
+  </Transition>
   <Transition
     appear
-    :enter-active-class="'transition-transform duration-200 ease-out motion-reduce:transition-none'"
+    :enter-active-class="'transition-transform duration-500 ease-out motion-reduce:transition-none'"
     :enter-from-class="props.position === 'right' ? 'translate-x-full' : '-translate-x-full'"
     enter-to-class="translate-x-0"
-    :leave-active-class="'transition-transform duration-150 ease-in motion-reduce:transition-none'"
+    leave-active-class="trn-transform-leave-500"
     leave-from-class="translate-x-0"
     :leave-to-class="props.position === 'right' ? 'translate-x-full' : '-translate-x-full'"
   >
@@ -30,26 +39,13 @@
       aria-label="Menu"
     >
       <div class="app-pad flex-between border-b">
-        <strong>Menu</strong>
+        <strong class="leading-none">Menu</strong>
         <button
-          class="group p-2 bg-white transition-transform duration-150"
+          class="group inline-flex items-center justify-center p-2 bg-white transition-transform duration-150"
           aria-label="Close"
           @click="close"
         >
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-            class="transition-transform duration-200 ease-out group-hover:rotate-90 motion-reduce:transition-none"
-          >
-            <path
-              d="M6 6l12 12M18 6 6 18"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-          </svg>
+          <i class="i-lucide:x w-5 h-5 text-gray-700 trn-transform-enter-500 group-hover:rotate-90"></i>
         </button>
       </div>
       <div class="p-3">
