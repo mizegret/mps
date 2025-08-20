@@ -1,13 +1,13 @@
 package com.mizegret.mps.mps_api.dtos.products;
 
-import jakarta.validation.constraints.NotBlank;
+import com.mizegret.mps.mps_core.validators.AnyNotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Value;
 
 @Value
+@AnyNotNull
 public class PatchProductRequest {
-  @NotBlank
   @Size(max = 200)
   private String name;
 
